@@ -26,7 +26,7 @@
         rightSpaceToView(self, 0).
         topSpaceToView(self, 0).
         bottomSpaceToView(self, 0);
-
+        
         titleLabel = [UILabel new];
         titleLabel.text = @"Finally, each row of the table should look roughly like the following image. It does not need to be exact, but should have a title at the top in blue, the description underneath it in black";
         titleLabel.font = [UIFont systemFontOfSize:16];
@@ -51,7 +51,7 @@
         UITapGestureRecognizer *tapGestureRecognizer1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scanBigImageClick1:)];
         [leftImageView addGestureRecognizer:tapGestureRecognizer1];
         [leftImageView setUserInteractionEnabled:YES];
-
+        
         contentLabel = [UILabel new];
         contentLabel.text = @"Use Git to manage the source code. Clear Git history is required.  Your completed project should be uploaded to your github account, and we will simply pull from your submission. Don’t send us a zip file";
         contentLabel.font = [UIFont systemFontOfSize:14];
@@ -77,10 +77,14 @@
 
 - (void)setRowModel:(RowModel *)rowModel{
     
+    //    contentLabel.text = rowModel.myDescription;
+    //    [self setupAutoHeightWithBottomView:contentLabel bottomMargin:10];
+    
+    
     titleLabel.text = rowModel.title;
     contentLabel.text = rowModel.myDescription;
     
-    UIView *tempView = nil;
+    UIView *tempView = self.contentView;
     
     if (!rowModel.title) {
         
@@ -93,8 +97,7 @@
     
     if (rowModel.myDescription)
         tempView = contentLabel;
-        
-        
+    
     if (rowModel.imageHref) {
         
         leftImageView.hidden = NO;
@@ -109,14 +112,13 @@
             topSpaceToView(titleLabel, 10).
             leftSpaceToView(self.contentView, 10).
             rightSpaceToView(leftImageView, 10);
-            
+            NSLog(@"rowModel.myDescription = %@",rowModel.myDescription);
             if ([self contentHeight:rowModel.myDescription] < 80) {
                 
                 tempView = leftImageView;
             }
         }else
             tempView = leftImageView;
-
         
     }else{
         
@@ -138,9 +140,10 @@
     
     CGFloat textHeightFloat = 0;
     
-    textHeightFloat = [contentStr boundingRectWithSize:CGSizeMake(KmainW -45, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size.height;
+    textHeightFloat = [contentStr boundingRectWithSize:CGSizeMake(KmainW -45 - 90, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size.height;
     
     return textHeightFloat;
 }
 
 @end
+
